@@ -1,10 +1,9 @@
-Author: @EBvi
+Alfred에서 오늘의 고시환율을 알려주는 플러그인입니다.
 
-Description:
-- Alfred에서 오늘의 고시환율을 알려주는 플러그인입니다.
-
-Requirement:
+##Requirement
+- Alfred v2
 - Alfred Powerpack
 
-Installation:
-- ~/Application/Alfred/Extension/환율/ 이라는 폴더를 만들어서 모든 파일을 넣으면 OK
+---
+
+배포 환경을 제공하지 않고 소스코드로만 제공하는 이유는 N사의 서비스를 별도의 이용허락 없이 사용하고 있기 때문입니다. 개인적인 용도 외에 사용하지 마시기 바랍니다.
