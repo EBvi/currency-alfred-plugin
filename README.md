@@ -1,5 +1,8 @@
 Alfred에서 오늘의 고시환율을 알려주는 플러그인입니다.
 
+##Screenshot
+![스크린샷](https://github.com/EBvi/currency-alfred-plugin/blob/master/screenshot.png?raw=true)
+
 ##Requirement
 - Alfred v2
 - Alfred Powerpack
