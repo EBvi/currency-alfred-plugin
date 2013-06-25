@@ -41,25 +41,29 @@
 				<string>환율</string>
 				<key>script</key>
 				<string># -*- coding:utf-8 -*-
+from bs4 import BeautifulSoup
+import urllib
+import re
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
-import urllib2
-import xml.etree.ElementTree as ET
+data = unicode(urllib.urlopen(u'http://info.finance.naver.com/marketindex/exchangeList.nhn').read(), u"euc-kr")
+soup = BeautifulSoup(data)
 
-request = urllib2.Request("http://www.naver.com/include/timesquare/widget/exchange.xml")
-request.add_header("Referer", "http://www.naver.com")
-response = urllib2.urlopen(request)
+tbody = soup.find("tbody", {})
+tr = tbody.findAll("tr", {})
 
-xmldoc = ET.parse(response)
-root = xmldoc.getroot()
+list = []
+for index, text in enumerate(tr):
+	obj = {}
+	obj["title"] = re.sub(ur"\s", "", str( text.find("td", {"class":"tit"}).get_text() ))
+	obj["sale"] = text.find("td", {"class":"sale"}).get_text()
+	list.append(obj)
 
 t = '&lt;items&gt;'
-for item in root.findall('currency'):
-    hname = item.find('hname').text.encode("utf-8")
-    standard = item.find('standard').text.encode("utf-8")
-    sign = item.find('sign').text.encode("utf-8")
-    change_val = item.find('change_val').text.encode("utf-8")
-    t += '&lt;item&gt;&lt;title&gt;%s : %s %s (%s)&lt;/title&gt;&lt;subtitle&gt;&lt;/subtitle&gt;&lt;icon&gt;icon.png&lt;/icon&gt;&lt;/item&gt;' % (hname, standard, sign, change_val)
-    
+for index, obj in enumerate(list):
+    t += '&lt;item&gt;&lt;title&gt;%s : %s&lt;/title&gt;&lt;subtitle&gt;&lt;/subtitle&gt;&lt;icon&gt;icon.png&lt;/icon&gt;&lt;/item&gt;' % (obj["title"], obj["sale"])
 t += '&lt;/items&gt;'
 
 print t</string>
@@ -76,6 +80,8 @@ print t</string>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>6EE2B361-429F-4789-ACFE-8B86FE737725</string>
+			<key>version</key>
+			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -89,6 +95,8 @@ print t</string>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
 			<string>AD4205B0-359E-47D0-895C-5447E13C1ABF</string>
+			<key>version</key>
+			<integer>0</integer>
 		</dict>
 	</array>
 	<key>readme</key>
