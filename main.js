@@ -9,15 +9,14 @@ var html = app.doShellScript('curl http://info.finance.naver.com/marketindex/exc
     .split(/ class=\".*?\"/).join('')
     .split(/ style=\".*?\"/).join('');
 
-var arr = [];
+var items = [];
 tbody.match(/<tr>.*?<\/tr>/g).map(function(tr){
-    arr.push( tr.match(/<td>(.*?)<\/td>/g).map(function(td){
+    var arr = tr.match(/<td>(.*?)<\/td>/g).map(function(td){
         return td.split(/<[\/]?.*?>/).join('').trim();
-    }) );
+    });
+    (arr.length > 1) && (function(arg){ items.push({
+        title:`${arr[0]} : ${arr[1]}`,
+        arg: arg,
+        text: { copy: arg }
+    }) })(arr[1].split(',').join(''));
 });
-
-var r = '<items>';
-arr.map(function(v){
-    r += `<item><title>${v[0]} : ${v[1]}</title><subtitle></subtitle></item>`;
-});
-r += '</items>';
